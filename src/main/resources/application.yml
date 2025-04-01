@@ -21,7 +21,7 @@ spring:
   # todo 需替换配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/noj_db
+    url: jdbc:mysql://localhost:3306/oslab_db
     username: root
     password: 111111
   # Redis 配置
@@ -43,6 +43,11 @@ spring:
     multipart:
       # 大小限制
       max-file-size: 10MB
+  neo4j:
+    authentication:
+      username: neo4j
+      password: 111111
+    uri: bolt://localhost:7687
 server:
   address: 0.0.0.0
   port: 8121
