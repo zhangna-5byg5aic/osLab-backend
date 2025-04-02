@@ -1,15 +1,18 @@
 package com.yupi.springbootinit.model.entity;
 
 import lombok.Data;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Relationship;
 
-@Node("Entity")
+import java.util.ArrayList;
+import java.util.List;
 @Data
 public class KnowledgeGraphNode {
-    @Id
-    private Long id;
-    private String name;
-    private String description;
-    private String label;
+    private EntityNode entity;
+    private String relationType;
+    private List<EntityNode> relatedEntities;
+
+    // 构造方法、getter和setter
+    public KnowledgeGraphNode() {
+        this.relatedEntities = new ArrayList<>();
+    }
 }

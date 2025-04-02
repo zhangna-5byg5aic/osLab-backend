@@ -109,3 +109,7 @@ knife4j:
 # 代码沙箱配置
 codesandbox:
   type: remote
+logging:
+  level:
+    org.neo4j: DEBUG
+    org.springframework.data.neo4j: DEBUG
