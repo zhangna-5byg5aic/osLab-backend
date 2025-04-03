@@ -1,5 +1,6 @@
 package com.yupi.springbootinit.service;
 
+import com.yupi.springbootinit.model.dto.knowledgegraph.GraphDataDTO;
 import com.yupi.springbootinit.model.entity.EntityNode;
 import com.yupi.springbootinit.model.entity.KnowledgeGraphNode;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,8 @@ class KnowledgeGraphServiceTest {
     {
         KnowledgeGraphNode node = knowledgeGraphService.findByNameWithRelationship("MMU","contain");
         System.out.println("包含关系："+node.getRelatedEntities().size());
+        GraphDataDTO graphDataDTO = knowledgeGraphService.convertToEChartsFormat(node);
+        System.out.println(graphDataDTO);
         assertNotNull(node);
     }
 }

@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.yupi.springbootinit.constant.UserConstant.USER_LOGIN_STATE;
 import static com.yupi.springbootinit.service.impl.UserServiceImpl.SALT;
 
 /**
@@ -100,6 +101,8 @@ public class UserController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
+        System.out.println("打印seesion"+request.getSession()+"打印登录状态"+request.getSession().getAttribute(USER_LOGIN_STATE));
+        System.out.println("Session ID: " + request.getSession().getId());
         return ResultUtils.success(loginUserVO);
     }
 
@@ -149,6 +152,8 @@ public class UserController {
      */
     @GetMapping("/get/login")
     public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
+        System.out.println("验证登录："+request.getSession().getAttribute(USER_LOGIN_STATE));
+        System.out.println("Session ID: " + request.getSession().getId());
         User user = userService.getLoginUser(request);
         return ResultUtils.success(userService.getLoginUserVO(user));
     }

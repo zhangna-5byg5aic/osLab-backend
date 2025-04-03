@@ -1,16 +1,18 @@
 package com.yupi.springbootinit.service;
 
 import com.yupi.springbootinit.constant.RelationType;
+import com.yupi.springbootinit.model.dto.knowledgegraph.CategoryDTO;
+import com.yupi.springbootinit.model.dto.knowledgegraph.GraphDataDTO;
+import com.yupi.springbootinit.model.dto.knowledgegraph.LinkDTO;
+import com.yupi.springbootinit.model.dto.knowledgegraph.NodeDTO;
 import com.yupi.springbootinit.model.entity.EntityNode;
 import com.yupi.springbootinit.model.entity.KnowledgeGraphNode;
 import com.yupi.springbootinit.repository.KnowledgeGraphRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class KnowledgeGraphService {
@@ -55,5 +57,95 @@ public class KnowledgeGraphService {
             return null;
         }
     }
+    public GraphDataDTO convertToEChartsFormat(List<KnowledgeGraphNode> knowledgeGraphNodes) {
+        GraphDataDTO graphData = new GraphDataDTO();
+        List<LinkDTO> links = new ArrayList<>();
+        // 用于去重和快速查找的映射
+        Map<String, NodeDTO> nodeMap = new HashMap<>();
+        Set<String> categorySet = new HashSet<>();
+        for (KnowledgeGraphNode kgNode : knowledgeGraphNodes) {
+            // 处理主实体节点
+            EntityNode entity = kgNode.getEntity();
+            NodeDTO mainNode = createNodeDTO(entity);
+            nodeMap.putIfAbsent(mainNode.getId(), mainNode);
+            categorySet.add(entity.getLabel());
+            // 处理相关实体节点
+            for (EntityNode relatedEntity : kgNode.getRelatedEntities()) {
+                NodeDTO relatedNode = createNodeDTO(relatedEntity);
+                nodeMap.putIfAbsent(relatedNode.getId(), relatedNode);
+                categorySet.add(relatedEntity.getLabel());
+                // 创建关系链接
+                LinkDTO link = new LinkDTO();
+                link.setSource(mainNode.getId());
+                link.setTarget(relatedNode.getId());
+                link.setValue(entity.getLabel());
+                link.setRelationType(entity.getLabel());
+                links.add(link);
+            }
+        }
+        List<NodeDTO> nodes = new ArrayList<>(nodeMap.values());
+        graphData.setNodes(nodes);
+        graphData.setLinks(links);
+        // 使用 Stream API 转换 Set 到 List<CategoryDTO>
+        List<CategoryDTO> categories = categorySet.stream()
+                .map(category -> {
+                    CategoryDTO cat = new CategoryDTO(category);
+                    return cat;
+                })
+                .collect(Collectors.toList());
+        graphData.setCategories(categories); // 设置分类
+
+        return graphData;
+    }
+    public GraphDataDTO convertToEChartsFormat(KnowledgeGraphNode knowledgeGraphNode) {
+        GraphDataDTO graphData = new GraphDataDTO();
+        List<LinkDTO> links = new ArrayList<>();
+        // 用于去重和快速查找的映射
+        Map<String, NodeDTO> nodeMap = new HashMap<>();
+
+        // 处理主实体节点
+        EntityNode entity = knowledgeGraphNode.getEntity();
+        NodeDTO mainNode = createNodeDTO(entity);
+        nodeMap.putIfAbsent(mainNode.getId(), mainNode);
+
+        // 处理相关实体节点
+        for (EntityNode relatedEntity : knowledgeGraphNode.getRelatedEntities()) {
+            NodeDTO relatedNode = createNodeDTO(relatedEntity);
+            nodeMap.putIfAbsent(relatedNode.getId(), relatedNode);
+
+            // 创建关系链接
+            LinkDTO link = new LinkDTO();
+            link.setSource(mainNode.getId());
+            link.setTarget(relatedNode.getId());
+            link.setValue(entity.getLabel());
+            link.setRelationType(entity.getLabel());
+            links.add(link);
+        }
+        List<NodeDTO> nodes = new ArrayList<>(nodeMap.values());
+        graphData.setNodes(nodes);
+        graphData.setLinks(links);
+        graphData.setCategories(new ArrayList<>(List.of(new CategoryDTO(knowledgeGraphNode.getRelationType())))); // 设置分类
+
+        return graphData;
+    }
+    private NodeDTO createNodeDTO(EntityNode entity) {
+        NodeDTO node = new NodeDTO();
+        node.setId(entity.getId().toString());
+        node.setName(entity.getName());
+        node.setCategory(entity.getLabel());
+        node.setDescription(entity.getDescription());
+        return node;
+    }
+
+    // 将 label 转换为分类索引
+    private Integer getCategoryIndex(String label) {
+        return switch(label) {
+            case "基础" -> 0;
+            case "进阶" -> 1;
+            case "应用" -> 2;
+            default -> throw new IllegalArgumentException("未知的标签类型: " + label);
+        };
+    }
+
 
 }
