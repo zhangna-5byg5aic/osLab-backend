@@ -14,6 +14,7 @@ import com.yupi.springbootinit.model.vo.QuestionVO;
 import com.yupi.springbootinit.model.vo.UserVO;
 import com.yupi.springbootinit.service.QuestionService;
 import com.yupi.springbootinit.mapper.QuestionMapper;
+import com.yupi.springbootinit.service.QuestionSetMapService;
 import com.yupi.springbootinit.service.UserService;
 import com.yupi.springbootinit.utils.SqlUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +40,8 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     implements QuestionService{
     @Resource
     private UserService userService;
+    @Resource
+    private QuestionSetMapService questionSetMapService;
 
     /**
      * 校验题目是否合法
@@ -153,6 +157,20 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         }).collect(Collectors.toList());
         questionVOPage.setRecords(questionVOList);
         return questionVOPage;
+    }
+
+    @Override
+    public List<QuestionVO> getQuestionBySets(int setId) {
+        List<Long> questionIds=questionSetMapService.getQuestionIds(setId);
+        List<QuestionVO> questions=new ArrayList<>();
+        for(Long questionId:questionIds)
+        {
+            Question question=baseMapper.selectById(questionId);
+            QuestionVO questionVO=QuestionVO.objToVo(question);
+            questions.add(questionVO);
+
+        }
+        return questions;
     }
 }
 

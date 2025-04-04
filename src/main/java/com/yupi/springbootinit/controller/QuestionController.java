@@ -14,11 +14,13 @@ import com.yupi.springbootinit.model.dto.question.*;
 import com.yupi.springbootinit.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.yupi.springbootinit.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.yupi.springbootinit.model.entity.Question;
+import com.yupi.springbootinit.model.entity.QuestionSets;
 import com.yupi.springbootinit.model.entity.QuestionSubmit;
 import com.yupi.springbootinit.model.entity.User;
 import com.yupi.springbootinit.model.vo.QuestionSubmitVO;
 import com.yupi.springbootinit.model.vo.QuestionVO;
 import com.yupi.springbootinit.service.QuestionService;
+import com.yupi.springbootinit.service.QuestionSetsService;
 import com.yupi.springbootinit.service.QuestionSubmitService;
 import com.yupi.springbootinit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,8 @@ public class QuestionController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private QuestionSetsService questionSetsService;
 
     private final static Gson GSON = new Gson();
 
@@ -327,5 +331,18 @@ public class QuestionController {
         final User loginUser = userService.getLoginUser(request);
         // 返回脱敏信息
         return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
+    }
+    @GetMapping("/questionSets")
+    public BaseResponse<List<QuestionSets>> getQuestionSets()
+    {
+        List<QuestionSets> questionSets = questionSetsService.allQuestionSets();
+        return ResultUtils.success(questionSets);
+    }
+    @GetMapping("/get/set")
+    public BaseResponse<List<QuestionVO>> getQuestionBySets(int setId)
+    {
+
+        List<QuestionVO> questions=questionService.getQuestionBySets(setId);
+        return ResultUtils.success(questions);
     }
 }
