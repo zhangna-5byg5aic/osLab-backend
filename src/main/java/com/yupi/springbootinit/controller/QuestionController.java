@@ -13,10 +13,7 @@ import com.yupi.springbootinit.exception.ThrowUtils;
 import com.yupi.springbootinit.model.dto.question.*;
 import com.yupi.springbootinit.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.yupi.springbootinit.model.dto.questionsubmit.QuestionSubmitQueryRequest;
-import com.yupi.springbootinit.model.entity.Question;
-import com.yupi.springbootinit.model.entity.QuestionSets;
-import com.yupi.springbootinit.model.entity.QuestionSubmit;
-import com.yupi.springbootinit.model.entity.User;
+import com.yupi.springbootinit.model.entity.*;
 import com.yupi.springbootinit.model.vo.QuestionSubmitVO;
 import com.yupi.springbootinit.model.vo.QuestionVO;
 import com.yupi.springbootinit.service.QuestionService;
@@ -86,6 +83,7 @@ public class QuestionController {
         boolean result = questionService.save(question);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         long newQuestionId = question.getId();
+        questionService.saveQuestionSetMap(questionAddRequest.getSetId(),newQuestionId);
         return ResultUtils.success(newQuestionId);
     }
 

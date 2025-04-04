@@ -9,6 +9,7 @@ import com.yupi.springbootinit.exception.BusinessException;
 import com.yupi.springbootinit.exception.ThrowUtils;
 import com.yupi.springbootinit.model.dto.question.QuestionQueryRequest;
 import com.yupi.springbootinit.model.entity.Question;
+import com.yupi.springbootinit.model.entity.QuestionSetMap;
 import com.yupi.springbootinit.model.entity.User;
 import com.yupi.springbootinit.model.vo.QuestionVO;
 import com.yupi.springbootinit.model.vo.UserVO;
@@ -171,6 +172,15 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
 
         }
         return questions;
+    }
+
+    @Override
+    public boolean saveQuestionSetMap(int setId, long newQuestionId) {
+        QuestionSetMap questionSetMap=new QuestionSetMap();
+        questionSetMap.setSetId(setId);
+        questionSetMap.setQuestionId(newQuestionId);
+        boolean save = questionSetMapService.save(questionSetMap);
+        return save;
     }
 }
 

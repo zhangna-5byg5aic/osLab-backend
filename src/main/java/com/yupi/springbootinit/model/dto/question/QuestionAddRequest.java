@@ -11,6 +11,10 @@ import java.util.List;
 @Data
 public class QuestionAddRequest implements Serializable {
     /**
+     * 题目集
+     */
+    private int setId;
+    /**
      * 标题
      */
     private String title;

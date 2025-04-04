@@ -51,4 +51,6 @@ public interface QuestionService extends IService<Question> {
     Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage, HttpServletRequest request);
 
     List<QuestionVO> getQuestionBySets(int setId);
+
+    boolean saveQuestionSetMap(int setId, long newQuestionId);
 }
