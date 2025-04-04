@@ -148,4 +148,22 @@ public class KnowledgeGraphService {
     }
 
 
+    public List<KnowledgeGraphNode> getKnowledgeGraph(List<String> names) {
+        List<KnowledgeGraphNode> result=new ArrayList<>();
+        List<String> relationTypes = Arrays.asList(RelationType.RELATED, RelationType.DEPENDENT, RelationType.CONTAIN, RelationType.DEPENDENT);
+        for(String name:names)
+        {
+            for (String relationType : relationTypes) {
+                Optional<KnowledgeGraphNode> nodeOptional = knowledgeGraphRepository.findByNameWithRelationship(name, relationType);
+                if (nodeOptional.isPresent()) {
+                    KnowledgeGraphNode node = nodeOptional.get();
+                    node.setRelationType(relationType); // 设置关系类型
+                    result.add(node);
+                } else {
+                    System.out.println("No Data for relation type: " + relationType);
+                }
+            }
+        }
+        return result;
+    }
 }

@@ -6,9 +6,7 @@ import com.yupi.springbootinit.model.dto.knowledgegraph.GraphDataDTO;
 import com.yupi.springbootinit.model.entity.KnowledgeGraphNode;
 import com.yupi.springbootinit.service.KnowledgeGraphService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,15 @@ public class KnowledgeGraphController {
     public BaseResponse<GraphDataDTO> getKnowledgeGraphData(String name) {
         // 1. 从数据库或其他数据源获取原始数据
         List<KnowledgeGraphNode> rawData = knowledgeGraphService.getKnowledgeGraph(name);
+        // 2. 转换为ECharts格式
+        GraphDataDTO graphData = knowledgeGraphService.convertToEChartsFormat(rawData);
+
+        return ResultUtils.success(graphData);
+    }
+    @PostMapping("/getMultiple")
+    public BaseResponse<GraphDataDTO> getKnowledgeGraphDataByList(@RequestBody List<String> names) {
+        // 1. 从数据库或其他数据源获取原始数据
+        List<KnowledgeGraphNode> rawData = knowledgeGraphService.getKnowledgeGraph(names);
         // 2. 转换为ECharts格式
         GraphDataDTO graphData = knowledgeGraphService.convertToEChartsFormat(rawData);
 
