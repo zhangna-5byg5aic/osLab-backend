@@ -108,7 +108,7 @@ knife4j:
           - com.yupi.springbootinit.controller
 # 代码沙箱配置
 codesandbox:
-  type: remote
+  type: example
 logging:
   level:
     org.neo4j: DEBUG

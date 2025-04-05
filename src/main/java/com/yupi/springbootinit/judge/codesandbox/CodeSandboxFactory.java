@@ -1,6 +1,7 @@
 package com.yupi.springbootinit.judge.codesandbox;
 
 import com.yupi.springbootinit.judge.codesandbox.impl.ExampleCodeSandbox;
+import com.yupi.springbootinit.judge.codesandbox.impl.OSLabCodeSandbox;
 import com.yupi.springbootinit.judge.codesandbox.impl.RemoteCodeSandbox;
 import com.yupi.springbootinit.judge.codesandbox.impl.ThirdPartyCodeSandbox;
 
@@ -22,6 +23,8 @@ public class CodeSandboxFactory {
                 return new RemoteCodeSandbox();
             case "thirdParty":
                 return new ThirdPartyCodeSandbox();
+            case "osLab":
+                return new OSLabCodeSandbox();
             default:
                 return new ExampleCodeSandbox();
         }

@@ -1,9 +1,6 @@
 package com.yupi.springbootinit.judge;
 
-import com.yupi.springbootinit.judge.strategy.DefaultJudgeStrategy;
-import com.yupi.springbootinit.judge.strategy.JavaLanguageJudgeStrategy;
-import com.yupi.springbootinit.judge.strategy.JudgeContext;
-import com.yupi.springbootinit.judge.strategy.JudgeStrategy;
+import com.yupi.springbootinit.judge.strategy.*;
 import com.yupi.springbootinit.judge.codesandbox.model.JudgeInfo;
 import com.yupi.springbootinit.model.entity.QuestionSubmit;
 import org.springframework.stereotype.Service;
@@ -25,6 +22,8 @@ public class JudgeManager {
         JudgeStrategy judgeStrategy = new DefaultJudgeStrategy();
         if ("java".equals(language)) {
             judgeStrategy = new JavaLanguageJudgeStrategy();
+        }else if( "c".equals(language)){
+           judgeStrategy=new CLanguageJudgeStrategy();
         }
         return judgeStrategy.doJudge(judgeContext);
     }

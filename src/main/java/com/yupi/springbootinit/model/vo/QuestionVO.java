@@ -1,8 +1,6 @@
 package com.yupi.springbootinit.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.yupi.springbootinit.model.dto.question.JudgeConfig;
 import com.yupi.springbootinit.model.entity.Question;
 import lombok.Data;
@@ -82,6 +80,10 @@ public class QuestionVO implements Serializable {
      * 创建题目人的信息
      */
     private UserVO userVO;
+    /**
+     * 原始代码
+     */
+    private String originalCode;
 
     /**
      * 包装类转对象
