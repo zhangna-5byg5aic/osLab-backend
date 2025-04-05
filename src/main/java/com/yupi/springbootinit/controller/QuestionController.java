@@ -61,6 +61,7 @@ public class QuestionController {
         if (questionAddRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+        System.out.println("添加题目："+questionAddRequest.getOriginalCode());
         Question question = new Question();
         BeanUtils.copyProperties(questionAddRequest, question);
         List<String> tags = questionAddRequest.getTags();
