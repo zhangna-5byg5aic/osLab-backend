@@ -78,8 +78,8 @@ public class KnowledgeGraphService {
                 LinkDTO link = new LinkDTO();
                 link.setSource(mainNode.getId());
                 link.setTarget(relatedNode.getId());
-                link.setValue(entity.getLabel());
-                link.setRelationType(entity.getLabel());
+                link.setValue(kgNode.getRelationType());
+                link.setRelationType(kgNode.getRelationType());
                 links.add(link);
             }
         }
@@ -117,8 +117,8 @@ public class KnowledgeGraphService {
             LinkDTO link = new LinkDTO();
             link.setSource(mainNode.getId());
             link.setTarget(relatedNode.getId());
-            link.setValue(entity.getLabel());
-            link.setRelationType(entity.getLabel());
+            link.setValue(knowledgeGraphNode.getRelationType());
+            link.setRelationType(knowledgeGraphNode.getRelationType());
             links.add(link);
         }
         List<NodeDTO> nodes = new ArrayList<>(nodeMap.values());

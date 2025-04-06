@@ -44,6 +44,10 @@ public class QuestionUpdateRequest implements Serializable {
      * 判题配置
      */
     private JudgeConfig judgeConfig;
+    /**
+     * 原始代码
+     */
+    private String originalCode;
 
     private static final long serialVersionUID = 1L;
 
