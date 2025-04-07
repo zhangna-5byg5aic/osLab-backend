@@ -15,6 +15,7 @@ import com.yupi.springbootinit.model.entity.User;
 import com.yupi.springbootinit.model.enums.QuestionSubmitLanguageEnum;
 import com.yupi.springbootinit.model.enums.QuestionSubmitStatusEnum;
 import com.yupi.springbootinit.model.vo.QuestionSubmitVO;
+import com.yupi.springbootinit.model.vo.QuestionVO;
 import com.yupi.springbootinit.service.QuestionService;
 import com.yupi.springbootinit.service.QuestionSubmitService;
 import com.yupi.springbootinit.mapper.QuestionSubmitMapper;
@@ -133,6 +134,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (userId != questionSubmit.getUserId() && !userService.isAdmin(loginUser)) {
             questionSubmitVO.setCode(null);
         }
+        User userById = userService.getById(questionSubmit.getUserId());
+        questionSubmitVO.setUserVO(userService.getUserVO(userById));
+        Question questionById = questionService.getById(questionSubmit.getQuestionId());
+        questionSubmitVO.setQuestionVO(QuestionVO.objToVo(questionById));
         return questionSubmitVO;
     }
 

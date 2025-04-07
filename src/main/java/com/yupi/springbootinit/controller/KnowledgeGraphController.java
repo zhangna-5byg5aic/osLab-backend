@@ -33,5 +33,12 @@ public class KnowledgeGraphController {
 
         return ResultUtils.success(graphData);
     }
+    @GetMapping("/getAll")
+    public BaseResponse<GraphDataDTO> getAllKnowledgeGraphData()
+    {
+        List<KnowledgeGraphNode> allKnowledgeGraph = knowledgeGraphService.getAllKnowledgeGraph();
+        GraphDataDTO graphDataDTO=knowledgeGraphService.convertToEChartsFormat(allKnowledgeGraph);
+        return ResultUtils.success(graphDataDTO);
+    }
 
 }

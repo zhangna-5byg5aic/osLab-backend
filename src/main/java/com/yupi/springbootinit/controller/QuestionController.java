@@ -332,6 +332,14 @@ public class QuestionController {
         // 返回脱敏信息
         return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
     }
+    @GetMapping("/question_submit/get")
+    public BaseResponse<QuestionSubmitVO> getQuestionSubmitById(long id, HttpServletRequest request)
+    {
+        QuestionSubmit questionSubmit = questionSubmitService.getById(id);
+        final User loginUser = userService.getLoginUser(request);
+        return ResultUtils.success(questionSubmitService.getQuestionSubmitVO(questionSubmit,loginUser));
+
+    }
     @GetMapping("/questionSets")
     public BaseResponse<List<QuestionSets>> getQuestionSets()
     {

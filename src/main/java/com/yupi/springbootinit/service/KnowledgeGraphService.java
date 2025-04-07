@@ -166,4 +166,18 @@ public class KnowledgeGraphService {
         }
         return result;
     }
+    public List<KnowledgeGraphNode> getAllKnowledgeGraph()
+    {
+        List<EntityNode> allEntityNodes = knowledgeGraphRepository.findAll();
+        List<KnowledgeGraphNode> result=new ArrayList<>();
+        List<String> allNames = allEntityNodes.stream()
+                .map(EntityNode::getName)
+                .collect(Collectors.toList());
+        return getKnowledgeGraph(allNames);
+
+    }
+    public List<EntityNode> getAllEntityNode()
+    {
+        return knowledgeGraphRepository.findAll();
+    }
 }

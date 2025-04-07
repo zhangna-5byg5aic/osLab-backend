@@ -62,4 +62,14 @@ class KnowledgeGraphServiceTest {
         System.out.println(graphDataDTO);
         assertNotNull(node);
     }
+    @Test
+    void testAllNode()
+    {
+        List<EntityNode> allEntityNode = knowledgeGraphService.getAllEntityNode();
+        for(EntityNode node:allEntityNode)
+        {
+            System.out.println(node.getName());
+        }
+        assertNotNull(allEntityNode);
+    }
 }
