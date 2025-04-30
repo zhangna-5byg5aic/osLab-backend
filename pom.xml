@@ -132,6 +132,12 @@
             <artifactId>neo4j-ogm-core</artifactId>
             <version>3.2.12</version> <!-- 对应 Neo4j 3.5 的版本 -->
         </dependency>
+<!--        火山引擎 SDK 调用-->
+        <dependency>
+            <groupId>com.volcengine</groupId>
+            <artifactId>volcengine-java-sdk-ark-runtime</artifactId>
+            <version>LATEST</version>
+        </dependency>
     </dependencies>
 
     <build>
