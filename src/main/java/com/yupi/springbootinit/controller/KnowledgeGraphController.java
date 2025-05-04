@@ -3,12 +3,14 @@ package com.yupi.springbootinit.controller;
 import com.yupi.springbootinit.common.BaseResponse;
 import com.yupi.springbootinit.common.ResultUtils;
 import com.yupi.springbootinit.model.dto.knowledgegraph.GraphDataDTO;
+import com.yupi.springbootinit.model.entity.EntityNode;
 import com.yupi.springbootinit.model.entity.KnowledgeGraphNode;
 import com.yupi.springbootinit.service.KnowledgeGraphService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/knowledge_graph")
@@ -39,6 +41,13 @@ public class KnowledgeGraphController {
         List<KnowledgeGraphNode> allKnowledgeGraph = knowledgeGraphService.getAllKnowledgeGraph();
         GraphDataDTO graphDataDTO=knowledgeGraphService.convertToEChartsFormat(allKnowledgeGraph);
         return ResultUtils.success(graphDataDTO);
+    }
+    @GetMapping("/getNames")
+    public BaseResponse<List<String>> getAllKnowledgeGraphName()
+    {
+        List<EntityNode> allEntityNode = knowledgeGraphService.getAllEntityNode();
+        List<String> allTags=allEntityNode.stream().map(EntityNode::getName).collect(Collectors.toList());
+        return ResultUtils.success(allTags);
     }
 
 }
