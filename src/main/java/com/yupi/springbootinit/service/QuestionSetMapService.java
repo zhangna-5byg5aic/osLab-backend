@@ -13,4 +13,6 @@ import java.util.List;
 public interface QuestionSetMapService extends IService<QuestionSetMap> {
 
     List<Long> getQuestionIds(int setId);
+
+    QuestionSetMap getByQuestionId(long questionId);
 }

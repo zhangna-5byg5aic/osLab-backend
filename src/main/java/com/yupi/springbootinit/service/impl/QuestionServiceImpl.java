@@ -182,6 +182,12 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         boolean save = questionSetMapService.save(questionSetMap);
         return save;
     }
+
+    @Override
+    public boolean removeSetMap(long questionId) {
+        QuestionSetMap questionSetMap=questionSetMapService.getByQuestionId(questionId);
+        return questionSetMapService.removeById(questionSetMap.getId());
+    }
 }
 
 

@@ -53,4 +53,6 @@ public interface QuestionService extends IService<Question> {
     List<QuestionVO> getQuestionBySets(int setId);
 
     boolean saveQuestionSetMap(int setId, long newQuestionId);
+
+    boolean removeSetMap(long questionId);
 }

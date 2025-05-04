@@ -30,6 +30,14 @@ public class QuestionSetMapServiceImpl extends ServiceImpl<QuestionSetMapMapper,
                 .collect(Collectors.toList());
         return questionIds;
     }
+
+    @Override
+    public QuestionSetMap getByQuestionId(long questionId) {
+        LambdaQueryWrapper<QuestionSetMap> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(QuestionSetMap::getQuestionId,questionId);
+        QuestionSetMap questionSetMap = baseMapper.selectOne(lambdaQueryWrapper);
+        return questionSetMap;
+    }
 }
 
 

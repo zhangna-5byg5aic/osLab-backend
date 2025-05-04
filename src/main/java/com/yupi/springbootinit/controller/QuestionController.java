@@ -110,6 +110,7 @@ public class QuestionController {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         boolean b = questionService.removeById(id);
+        questionService.removeSetMap(id);
         return ResultUtils.success(b);
     }
 
