@@ -143,18 +143,18 @@ public class StudentsController {
         user.setUserPassword(encryptPassword);
         user.setUserName(name);
         user.setUserRole(UserConstant.DEFAULT_ROLE);
-       /* boolean userSave = userService.save(user);
+        boolean userSave = userService.save(user);
         if(!userSave)
         {
             throw new BusinessException(ErrorCode.OPERATION_ERROR);
-        }*/
+        }
         Students student = new Students();
         student.setName(name);
         student.setStudentNumber(studentNumber);
         student.setClassName(className);
         student.setUserId(user.getId());
         try{
-//            studentsService.save(student);
+            studentsService.save(student);
             StudentVO studentVO = new StudentVO();
             BeanUtils.copyProperties(student,studentVO);
             studentVO.setUserAccount(account);
