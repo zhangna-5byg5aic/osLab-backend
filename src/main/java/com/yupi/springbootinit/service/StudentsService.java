@@ -1,5 +1,7 @@
 package com.yupi.springbootinit.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yupi.springbootinit.model.dto.student.StudentQueryRequest;
 import com.yupi.springbootinit.model.entity.Students;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface StudentsService extends IService<Students> {
 
+    QueryWrapper getQueryWrapper(StudentQueryRequest studentQueryRequest);
 }

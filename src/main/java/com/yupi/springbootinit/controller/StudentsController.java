@@ -2,6 +2,7 @@ package com.yupi.springbootinit.controller;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yupi.springbootinit.annotation.AuthCheck;
 import com.yupi.springbootinit.common.BaseResponse;
 import com.yupi.springbootinit.common.ErrorCode;
@@ -11,6 +12,7 @@ import com.yupi.springbootinit.exception.BusinessException;
 import com.yupi.springbootinit.mapper.StudentsMapper;
 import com.yupi.springbootinit.model.dto.student.StudentAddRequest;
 import com.yupi.springbootinit.model.dto.student.StudentExcel;
+import com.yupi.springbootinit.model.dto.student.StudentQueryRequest;
 import com.yupi.springbootinit.model.entity.Students;
 import com.yupi.springbootinit.model.entity.User;
 import com.yupi.springbootinit.model.vo.StudentVO;
@@ -166,5 +168,22 @@ public class StudentsController {
         {
             throw new BusinessException(ErrorCode.OPERATION_ERROR,"学号重复");
         }
+    }
+    @PostMapping("/list/page")
+    public BaseResponse<Page<Students>> listStudentByPage(@RequestBody StudentQueryRequest studentQueryRequest)
+    {
+        long current = studentQueryRequest.getCurrent();
+        long size = studentQueryRequest.getPageSize();
+        Page<Students> studentsPage=studentsService.page(new Page<>(current,size),studentsService.getQueryWrapper(studentQueryRequest));
+        return ResultUtils.success(studentsPage);
+    }
+    @PostMapping("/delete")
+    public BaseResponse<Boolean> deleteStudent(Integer id)
+    {
+        Students student = studentsService.getById(id);
+        User user = userService.getById(student.getUserId());
+        userService.removeById(user.getId());
+        boolean b = studentsService.removeById(id);
+        return ResultUtils.success(b);
     }
 }
